@@ -1,8 +1,16 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ExternalLink, Github, Coffee, Heart } from "lucide-react";
+import { ExternalLink, Github, Coffee, Heart, Lock } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 
 const Projects = () => {
+  const handlePrivateRepo = () => {
+    toast({
+      title: "Repository is Private",
+      description: "This repository contains proprietary code and is currently private for security reasons.",
+    });
+  };
+
   const projects = [
     {
       title: "Coffee Website",
@@ -11,7 +19,10 @@ const Projects = () => {
       image: "☕",
       icon: <Coffee className="w-6 h-6" />,
       gradient: "from-amber-500 to-orange-600",
-      features: ["Responsive Design", "Modern UI/UX", "Interactive Elements", "Performance Optimized"]
+      features: ["Responsive Design", "Modern UI/UX", "Interactive Elements", "Performance Optimized"],
+      liveUrl: "https://brewcraft.vercel.app",
+      githubUrl: "https://github.com/AKranger05/Coffee-website",
+      isPrivate: false
     },
     {
       title: "Tinder-Inspired Portfolio",
@@ -20,7 +31,10 @@ const Projects = () => {
       image: "💝",
       icon: <Heart className="w-6 h-6" />,
       gradient: "from-pink-500 to-rose-600",
-      features: ["Swipe Interactions", "Video Integration", "Advanced Animations", "Self-hosted Media"]
+      features: ["Swipe Interactions", "Video Integration", "Advanced Animations", "Self-hosted Media"],
+      liveUrl: "https://akshat-tiwari-portfolio.vercel.app",
+      githubUrl: "#",
+      isPrivate: true
     }
   ];
 
@@ -82,12 +96,23 @@ const Projects = () => {
                 </div>
                 
                 <div className="flex gap-3">
-                  <Button size="sm" className="bg-gradient-to-r from-neon-purple to-cyber-pink hover:from-cyber-pink hover:to-neon-purple flex-1">
+                  <Button 
+                    size="sm" 
+                    className="bg-gradient-to-r from-neon-purple to-cyber-pink hover:from-cyber-pink hover:to-neon-purple flex-1"
+                    onClick={() => window.open(project.liveUrl, '_blank')}
+                  >
                     <ExternalLink className="w-4 h-4 mr-2" />
                     View Live
                   </Button>
-                  <Button size="sm" variant="outline" className="border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-background">
-                    <Github className="w-4 h-4" />
+                  <Button 
+                    size="sm" 
+                    variant="outline" 
+                    className={`border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-background ${
+                      project.isPrivate ? 'opacity-70' : ''
+                    }`}
+                    onClick={project.isPrivate ? handlePrivateRepo : () => window.open(project.githubUrl, '_blank')}
+                  >
+                    {project.isPrivate ? <Lock className="w-4 h-4" /> : <Github className="w-4 h-4" />}
                   </Button>
                 </div>
               </div>

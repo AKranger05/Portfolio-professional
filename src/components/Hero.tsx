@@ -1,8 +1,51 @@
 import { Button } from "@/components/ui/button";
 import { ChevronDown, Github, Linkedin, Mail } from "lucide-react";
+import { toast } from "@/components/ui/use-toast";
 import heroBackground from "@/assets/hero-bg.jpg";
 
 const Hero = () => {
+  const handleDownloadResume = () => {
+    // Create a link to download the resume file from the public folder
+    const link = document.createElement('a');
+    link.href = '/Akshat_Tiwari_Resume.docx'; // Place your resume file in the public folder
+    link.download = 'Akshat_Tiwari_Resume.docx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const copyEmails = async () => {
+    const emails = "akshat1972005@gmail.com, nahidcode05@gmail.com";
+    try {
+      await navigator.clipboard.writeText(emails);
+      toast({
+        title: "Email addresses copied!",
+        description: "Email addresses have been copied to your clipboard.",
+      });
+    } catch (err) {
+      // Fallback for browsers that don't support clipboard API
+      const textArea = document.createElement("textarea");
+      textArea.value = emails;
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        document.execCommand('copy');
+        toast({
+          title: "Email addresses copied!",
+          description: "Email addresses have been copied to your clipboard.",
+        });
+      } catch (fallbackErr) {
+        toast({
+          title: "Copy failed",
+          description: "Please copy manually: " + emails,
+          variant: "destructive",
+        });
+      }
+      document.body.removeChild(textArea);
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background with overlay */}
@@ -40,24 +83,46 @@ const Hero = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8 animate-slide-up" style={{ animationDelay: '0.6s' }}>
-            <Button size="lg" className="bg-gradient-to-r from-neon-purple to-cyber-pink hover:from-cyber-pink hover:to-neon-purple hover-glow transition-all duration-300">
+            <Button 
+              size="lg" 
+              className="bg-gradient-to-r from-neon-purple to-cyber-pink hover:from-cyber-pink hover:to-neon-purple hover-glow transition-all duration-300"
+              onClick={() => document.getElementById('projects')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               View My Work
             </Button>
-            <Button variant="outline" size="lg" className="border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-background">
+            <Button 
+              variant="outline" 
+              size="lg" 
+              className="border-electric-blue text-electric-blue hover:bg-electric-blue hover:text-background"
+              onClick={handleDownloadResume}
+            >
               Download Resume
             </Button>
           </div>
           
           <div className="flex justify-center gap-6 animate-slide-up mb-12" style={{ animationDelay: '0.8s' }}>
-            <a href="#" className="text-muted-foreground hover:text-neon-purple transition-colors duration-300 hover-glow">
+            <a 
+              href="https://github.com/AKranger05" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-muted-foreground hover:text-neon-purple transition-colors duration-300 hover-glow"
+            >
               <Github className="w-6 h-6" />
             </a>
-            <a href="#" className="text-muted-foreground hover:text-electric-blue transition-colors duration-300 hover-glow">
+            <a 
+              href="https://www.linkedin.com/in/contactakshattiwari05" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="text-muted-foreground hover:text-electric-blue transition-colors duration-300 hover-glow"
+            >
               <Linkedin className="w-6 h-6" />
             </a>
-            <a href="#" className="text-muted-foreground hover:text-cyber-pink transition-colors duration-300 hover-glow">
+            <button 
+              onClick={copyEmails}
+              className="text-muted-foreground hover:text-cyber-pink transition-colors duration-300 hover-glow cursor-pointer"
+            >
               <Mail className="w-6 h-6" />
-            </a>
+            </button>
           </div>
         </div>
         

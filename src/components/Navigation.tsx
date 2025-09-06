@@ -21,6 +21,16 @@ const Navigation = () => {
     { name: "Contact", href: "#contact" }
   ];
 
+  const handleDownloadResume = () => {
+    // Create a link to download the resume file from the public folder
+    const link = document.createElement('a');
+    link.href = '/Akshat_Tiwari_Resume.docx'; // Place your resume file in the public folder
+    link.download = 'Akshat_Tiwari_Resume.docx';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
       scrolled ? 'glass-card border-b' : 'bg-transparent'
@@ -46,6 +56,7 @@ const Navigation = () => {
             <Button 
               size="sm"
               className="bg-gradient-to-r from-neon-purple to-cyber-pink hover:from-cyber-pink hover:to-neon-purple hover-glow"
+              onClick={handleDownloadResume}
             >
               Resume
             </Button>
@@ -80,6 +91,7 @@ const Navigation = () => {
                 <Button 
                   size="sm"
                   className="w-full bg-gradient-to-r from-neon-purple to-cyber-pink hover:from-cyber-pink hover:to-neon-purple"
+                  onClick={handleDownloadResume}
                 >
                   Resume
                 </Button>
